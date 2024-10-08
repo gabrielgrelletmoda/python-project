@@ -5,29 +5,15 @@ app = Flask(__name__)
 
 
 
-def criar_registro_pipefy(dados):
+def criar_registro_pipefy(dados, PIPEFY_TOKEN=None, PIPEFY_API_URL=None):
     query = """
     mutation {
-      createCard(input: {
-        pipe_id: "ID_DO_PIPE"
-        title: "%s"
-        fields_attributes: [
-          {
-            field_id: "ID_DO_CAMPO_NOME"
-            field_value: "%s"
-          },
-          {
-            field_id: "ID_DO_CAMPO_EMAIL"
-            field_value: "%s"
-          }
-        ]
-      }) {
-        card {
-          id
-          title
-        }
-      }
+  createTableRecord(input: {table_id: ID, title: "New record", fields_attributes: {field_id: "text", field_value: "New value for this record field"}}) {
+    table_record {
+      id
     }
+  }
+}
     """ % (dados['nome'], dados['nome'], dados['email'])
 
     headers = {
@@ -39,9 +25,9 @@ def criar_registro_pipefy(dados):
     return response.json()
 
 @app.route('/registrar', methods=['POST'])
-def registrar():
+def registrar(PIPEFY_TOKEN=None, ):
     dados = request.json
-    resultado = criar_registro_pipefy(dados)
+    resultado = criar_registro_pipefy(dados, PIPEFY_TOKEN, PIPEFY_API_URL)
     return jsonify(resultado)
 
 if __name__ == '__main__':
