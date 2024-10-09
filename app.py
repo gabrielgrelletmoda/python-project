@@ -17,7 +17,7 @@ def criar_registro_pipefy(dados, PIPEFY_TOKEN=None, PIPEFY_API_URL=None):
     """ % (dados['nome'], dados['nome'], dados['email'])
 
     headers = {
-        'Authorization': PIPEFY_TOKEN,
+        'Authorization': PIPEFY_TOKEN,''
         'Content-Type': 'application/json',
     }
 
@@ -25,7 +25,7 @@ def criar_registro_pipefy(dados, PIPEFY_TOKEN=None, PIPEFY_API_URL=None):
     return response.json()
 
 @app.route('/registrar', methods=['POST'])
-def registrar(PIPEFY_TOKEN=None, ):
+def registrar(PIPEFY_TOKEN=None, PIPEFY_API_URL=None):
     dados = request.json
     resultado = criar_registro_pipefy(dados, PIPEFY_TOKEN, PIPEFY_API_URL)
     return jsonify(resultado)
